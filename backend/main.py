@@ -12,22 +12,7 @@ from typing import Optional, List
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./serviceAccountKey.json"
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate(
-    {
-  "type": "service_account",
-  "project_id": "balance-it-a7104",
-  "private_key_id": "302e25c060266992f55f057320d0a5c995e49c52",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCnHmBdj5qF9RYF\nxp+gNKE+nwoXVroycvkHMW9DuBWI9UIgtXJCZ6N0YRRXZ79amgPLyOV+iNt0wf0z\nNGEeIal+8AkCOz8E5uCG4kEvOY+CJ349JE27lGBjZm+7d+xSjju3FvW1xvaAu8Zm\ne+CVM6x4ythX5Be4BGQ0nMjD7ZSH2yAsP4F7242U/8Pae+EV1a5xDViBtiTjvuXs\njOkZF2Vb8WsCBsqGOPrgvWPi1e/ithWBrtoB+CzbYXuN8w+7zY4kTXGhpcFeK6Zk\njfI/XHQHIb/1N8+fw4e7WJW2ZSx3xHW4e/mFa4RAVNvgC4XHc5+clN/dOivVR38A\nicyFNSSdAgMBAAECggEAC/saUk4Dq5IQ7IRIC8A6K+pS9Hr8CYN2Mi6esqHCSXm4\nlLrtYH1cACS4xJtkSIzwgLrIv42OmvKqKFjOlAGg/4y0Pwi1HkpyOYYdWwYq/g9Y\nXLthjahRg+hjUj+16lhwFFKWqVvrCC4HraLSTJM4mWBRdw7PJ7SI5CZPuyj1+qQV\n92KSNpX/9NCfsSPikE0cX/Sr1xSpsmscBXCf98nDbmBedra1qH9pETfn/IosTzt7\nSwO6V/89Y3leCYLPcklh2x6pm71kPLEmC9hLAS5j6VGFIAxid83LfYyfshmLmCWo\nx8/20uraIngEGdYKCSTxtsSRQxDen3pn6GPYErRbMQKBgQDmppu5yovaQYA1Gtya\nrV0cV5XaZL+HhvivWmK4XrJFhNeKLORNOvkmgJKnXaeBBfS3PoOvu5ijcsYjGiKZ\neCC1ZZKBv4A1WH9ePLBypVGOQ04YGnmmQqniATdcw77lc4VetFPti+Gr5SD9mM3X\nZ3R7e5E8L/u00PI6i3NG36qP3wKBgQC5fEhJQ6EHx5atCL6Wmi42zxcKZaSUsdEQ\nkyHU6BHH02gplumVym2k1DxeNldngZ8ZpccClHxyuZ607D+8pRiBJZKe8BssiQTs\nkGVMWPmTnW8Ml1CorYIVC9p/EL7mdhO2KvQ0yq0CCvfhUNhBfWNIzaJj1p/4JzEq\nU2gu5VUrAwKBgQCu72po7ZBIxykgHfF3d0mJd3x2mbcSaXIwPRNm1pvLUkfPyuCV\nGsdhRl70hXnHx+alHMrv/A522VQhx266i3vzWMhXlBD/ZNGlfc4uBejnR3DxoxLk\n4ObMPTPqLaSZjpZ3D7ogDtnob+4nqT9lwld8WGn9Bj+YEmnFsYKLHJTWbQKBgQCH\n/jk5jh4YiBtPDmQ+IxjTEo7ADrnWU3EHB/j8EpJGwhdSttTYACzXdswz/v+iYgT2\nVvdMSvXbX4CfAb/RXfJTberMIRqrUmKL12qNyYZi1kC/KIn4wg3nxGMUWoC8k8Hs\nBB48PoUORGBtkEqd6YLLtAjlzkxHMuT3NWPjTj1dZQKBgQC2rAFFDUEIDh/HcGOW\ne1lWQklmnAPok6RnK6or3prpCyuge1FuT6s9HaCf4tgAfwrQZPOHxhxAFczzk54L\nvhIuAA69mBRwhaLm7pzWDAC3ucCoNWd9ayjDkzcu6AFiZ+IOQEdF8RHU+vPhVuH3\nfTyvJONTyCDyo3aA9ONGp7eWxA==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fbsvc@balance-it-a7104.iam.gserviceaccount.com",
-  "client_id": "112734892799294730211",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40balance-it-a7104.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
-
-)
+cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 # Initialize Firestore Client

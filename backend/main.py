@@ -2,6 +2,7 @@ import json
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request, Response, status
 from fastapi.security import OAuth2PasswordBearer
+import firebase_admin
 from pydantic import BaseModel
 from firebase_admin import auth, credentials, initialize_app
 from google.cloud import firestore
@@ -10,19 +11,16 @@ from typing import Optional, List
 import json
 from dotenv import load_dotenv
 load_dotenv()
-# Set the environment variable for Google Cloud credentials
-firebase_credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+# Load Firebase credentials from environment variable
+firebase_credentials = os.getenv("FIREBASE_CONFIG")
 
-if not firebase_credentials_path:
-    raise ValueError("Firebase credentials (GOOGLE_APPLICATION_CREDENTIALS) are not set.")
-
-# Use the credentials to initialize Firebase Admin SDK
-from firebase_admin import credentials, initialize_app
-cred = credentials.Certificate(json.loads(firebase_credentials_path))
-initialize_app(cred)
-
-# Initialize Firestore Client
-db = firestore.Client()
+if firebase_credentials:
+    # Load the credentials from the environment variable
+    cred = credentials.Certificate(json.loads(firebase_credentials))
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+else:
+    print("Firebase credentials not found in environment variables.")
 
 # FastAPI app initialization
 app = FastAPI()

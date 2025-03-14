@@ -1,83 +1,85 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen p-4">
-    <h1 class="text-3xl font-bold text-blue-800 mb-2">Balance Scale Addition Game</h1>
-    <p class="text-lg text-gray-700 mb-6">Find numbers that add up to match the target value!</p>
+    <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-blue-800 mb-2">Balance Scale Addition Game</h1>
+    <p class="text-base sm:text-lg text-gray-700 mb-6 text-center">Find numbers that add up to match the target value!</p>
 
     <!-- Start Screen -->
-    <div v-if="!gameStarted" class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-6 mb-6 text-center">
-      <h2 class="text-2xl font-semibold text-blue-800 mb-4">Ready to Play?</h2>
-      <button 
-        @click="startGame"
-        class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors m-2"
-      >
-        Start Game
-      </button>
-      <button 
-        @click="goToDashboard"
-        class="px-6 py-3 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors m-2"
-      >
-        Dashboard
-      </button>
+    <div v-if="!gameStarted" class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 text-center">
+      <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-blue-800 mb-4">Ready to Play?</h2>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button 
+          @click="startGame"
+          class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors"
+        >
+          Start Game
+        </button>
+        <button 
+          @click="goToDashboard"
+          class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white rounded-lg font-bold shadow-md hover:bg-blue-700 transition-colors"
+        >
+          Dashboard
+        </button>
+      </div>
     </div>
 
-    <!-- Game container (shown only when game has started) -->
-    <div v-if="gameStarted" class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-6 mb-6">
+    <!-- Game container -->
+    <div v-if="gameStarted" class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">
       <!-- Level info -->
-      <div class="flex justify-between items-center mb-4">
-        <h1>{{ gameName }} - {{ difficulty }} ({{ totalRounds }} rounds)</h1>
-        <div class="text-lg font-semibold text-gray-800">Level: {{ currentRound - 1 }}</div>
-        <div class="text-lg font-semibold text-purple-700">Target: {{ targetNumber }}</div>
-        <div class="text-lg font-semibold text-green-700">Score: {{ score }}</div>
-        <div class="text-lg font-semibold text-red-700">Time: {{ timeLeft }}s</div>
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2 text-sm sm:text-base">
+        <h1 class="text-center">{{ gameName }} - {{ difficulty }} ({{ totalRounds }} rounds)</h1>
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-4">
+          <div class="font-semibold text-gray-800">Level: {{ currentRound - 1 }}</div>
+          <div class="font-semibold text-purple-700">Target: {{ targetNumber }}</div>
+          <div class="font-semibold text-green-700">Score: {{ score }}</div>
+          <div class="font-semibold text-red-700">Time: {{ timeLeft }}s</div>
+        </div>
       </div>
 
       <!-- Balance scale -->
-<!-- Balance scale -->
-<div class="relative mb-10 h-56">
-  <!-- Fulcrum -->
-  <div class="absolute left-1/2 bottom-0 w-8 h-28 bg-gradient-to-t from-gray-700 to-gray-600 -ml-4 shadow-lg"></div>
-  <div class="absolute left-1/2 bottom-28 w-20 h-8 bg-gray-800 rounded-full -ml-10 shadow-md border-2 border-gray-600"></div>
+      <div class="relative mb-6 sm:mb-10 h-48 sm:h-56 w-full">
+        <!-- Fulcrum -->
+        <div class="absolute left-1/2 bottom-0 w-6 sm:w-8 h-24 sm:h-28 bg-gradient-to-t from-gray-700 to-gray-600 -ml-3 sm:-ml-4 shadow-lg"></div>
+        <div class="absolute left-1/2 bottom-24 sm:bottom-28 w-16 sm:w-20 h-6 sm:h-8 bg-gray-800 rounded-full -ml-8 sm:-ml-10 shadow-md border-2 border-gray-600"></div>
 
-  <!-- Scale beam -->
-  <div 
-    class="absolute left-1/2 bottom-32 w-3/4 h-4 bg-gradient-to-r from-amber-900 to-amber-700 rounded-full origin-center transform -translate-x-1/2 shadow-lg"
-    :style="{ transform: `translate(-50%, 0) rotate(${-scaleRotation}deg)` }"
-  ></div>
+        <!-- Scale beam -->
+        <div 
+          class="absolute left-1/2 bottom-28 sm:bottom-32 w-11/12 sm:w-3/4 h-3 sm:h-4 bg-gradient-to-r from-amber-900 to-amber-700 rounded-full origin-center transform -translate-x-1/2 shadow-lg"
+          :style="{ transform: `translate(-50%, 0) rotate(${-scaleRotation}deg)` }"
+        ></div>
 
-  <!-- Scale plates -->
-  <div 
-    class="absolute left-1/4 rounded-full w-28 h-4 flex items-center justify-center transform -translate-x-1/2"
-    :style="{ bottom: `${90 - scaleRotation * 2}px` }"
-  >
-    <div 
-      class="absolute -top-16 p-4 bg-purple-200 rounded-xl text-purple-800 font-bold text-xl shadow-sm border border-purple-300"
-      :style="{ transform: `translateY(${scaleRotation * 2}px)` }"
-    >
-      {{ currentTotal }}
-    </div>
-  </div>
+        <!-- Scale plates -->
+        <div 
+          class="absolute left-1/4 rounded-full w-20 sm:w-28 h-3 sm:h-4 flex items-center justify-center transform -translate-x-1/2"
+          :style="{ bottom: `${80 - scaleRotation * 1.5}px` }"
+        >
+          <div 
+            class="absolute -top-12 sm:-top-16 p-3 sm:p-4 bg-purple-200 rounded-xl text-purple-800 font-bold text-lg sm:text-xl shadow-sm border border-purple-300"
+            :style="{ transform: `translateY(${scaleRotation * 1.5}px)` }"
+          >
+            {{ currentTotal }}
+          </div>
+        </div>
 
-  <div 
-    class="absolute left-3/4 rounded-full w-28 h-4 flex items-center justify-center transform -translate-x-1/2"
-    :style="{ bottom: `${90 + scaleRotation * 2}px` }"
-  >
-    <div 
-      class="absolute -top-16 p-4 bg-purple-200 rounded-xl text-purple-800 font-bold text-xl shadow-sm border border-purple-300"
-      :style="{ transform: `translateY(${-scaleRotation * 2}px)` }"
-    >
-      {{ targetNumber }}
-    </div>
-  </div>
-</div>
-
+        <div 
+          class="absolute left-3/4 rounded-full w-20 sm:w-28 h-3 sm:h-4 flex items-center justify-center transform -translate-x-1/2"
+          :style="{ bottom: `${80 + scaleRotation * 1.5}px` }"
+        >
+          <div 
+            class="absolute -top-12 sm:-top-16 p-3 sm:p-4 bg-purple-200 rounded-xl text-purple-800 font-bold text-lg sm:text-xl shadow-sm border border-purple-300"
+            :style="{ transform: `translateY(${-scaleRotation * 1.5}px)` }"
+          >
+            {{ targetNumber }}
+          </div>
+        </div>
+      </div>
 
       <!-- Number selection -->
-      <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-4 mb-6">
         <div v-for="number in availableNumbers" :key="number" 
              class="flex items-center justify-center">
           <button 
             @click="addNumber(number)"
-            class="w-16 h-16 rounded-lg bg-blue-500 text-white text-xl font-bold shadow-md hover:bg-blue-600 transition-colors"
+            class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-blue-500 text-white text-lg sm:text-xl font-bold shadow-md hover:bg-blue-600 transition-colors"
             :disabled="selectedNumbers.length >= 3"
           >
             {{ number }}
@@ -86,34 +88,34 @@
       </div>
 
       <!-- Selected numbers display -->
-      <div class="flex justify-center space-x-4 mb-6 h-16">
+      <div class="flex justify-center space-x-2 sm:space-x-4 mb-6 h-14 sm:h-16">
         <div v-for="(number, index) in selectedNumbers" :key="'selected-' + index" 
-          class="w-14 h-14 rounded-lg bg-blue-700 text-white flex items-center justify-center text-xl font-bold relative group">
+          class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-blue-700 text-white flex items-center justify-center text-lg sm:text-xl font-bold relative group">
           {{ number }}
           <button 
             @click="removeNumber(index)"
-            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-sm"
           >
             ×
           </button>
         </div>
 
         <div v-for="empty in 3 - selectedNumbers.length" :key="'empty-' + empty" 
-             class="w-14 h-14 rounded-lg border-2 border-dashed border-gray-300"></div>
+             class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg border-2 border-dashed border-gray-300"></div>
       </div>
 
       <!-- Controls -->
       <div class="flex justify-center space-x-4">
         <button 
           @click="checkAnswer"
-          class="px-6 py-3 bg-green-600 text-white rounded-lg font-bold shadow-md hover:bg-green-700 disabled:bg-gray-400 transition-colors"
+          class="px-4 py-2 sm:px-6 sm:py-3 bg-green-600 text-white rounded-lg font-bold shadow-md hover:bg-green-700 disabled:bg-gray-400 transition-colors text-sm sm:text-base"
           :disabled="selectedNumbers.length === 0 || timeLeft <= 0"
         >
           Check
         </button>
         <button 
           @click="resetSelection"
-          class="px-6 py-3 bg-yellow-500 text-white rounded-lg font-bold shadow-md hover:bg-yellow-600 transition-colors"
+          class="px-4 py-2 sm:px-6 sm:py-3 bg-yellow-500 text-white rounded-lg font-bold shadow-md hover:bg-yellow-600 transition-colors text-sm sm:text-base"
           :disabled="timeLeft <= 0"
         >
           Reset
@@ -124,15 +126,15 @@
     <!-- Feedback message -->
     <div 
       v-if="feedbackMessage && gameStarted" 
-      class="w-full max-w-3xl p-4 rounded-lg text-center text-lg font-semibold mb-4"
+      class="w-full max-w-3xl p-4 rounded-lg text-center text-base sm:text-lg font-semibold mb-4"
       :class="feedbackType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
     >
       {{ feedbackMessage }}
     </div>
 
     <!-- Rules -->
-    <div class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-4 text-gray-700">
-      <h2 class="text-xl font-bold text-blue-800 mb-2">How to Play:</h2>
+    <div class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-4 text-gray-700 text-sm sm:text-base">
+      <h2 class="text-lg sm:text-xl font-bold text-blue-800 mb-2">How to Play:</h2>
       <ul class="list-disc pl-5 space-y-1">
         <li>Select numbers from the buttons that add up to the target value</li>
         <li>You can use up to 3 numbers for each sum</li>
@@ -146,7 +148,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, onMounted } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 interface User{
   uid:string
 }
@@ -434,10 +436,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-</style>

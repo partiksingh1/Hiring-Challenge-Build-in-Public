@@ -15,7 +15,7 @@
         
         <div v-else class="grid gap-3">
           <div 
-            v-for="(config, index) in gameConfigs" 
+            v-for="(config) in gameConfigs" 
             :key="config.id"
             class="border rounded-lg p-4 cursor-pointer transition-all hover:bg-blue-50 hover:border-blue-300"
             :class="{'border-blue-500': selectedGame && selectedGame.difficulty === config.difficulty}"

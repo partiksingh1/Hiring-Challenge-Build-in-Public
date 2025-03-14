@@ -112,7 +112,7 @@ export default {
     // Fetch the game configurations
     const fetchGameConfigs = async () => {
       try {
-        const response = await fetch("http://localhost:8000/game/configure");
+        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure");
         const data = await response.json();
         gameConfigs.value = data;
       } catch (error) {
@@ -132,7 +132,7 @@ export default {
         const user = JSON.parse(userString) as User;
 
         try {
-          const response = await fetch(`http://localhost:8000/game/scores/${user.uid}`);
+          const response = await fetch(`https://hiring-challenge-build-in-public-d76h.onrender.com/game/scores/${user.uid}`);
           const data = await response.json();
           userProgress.value = data;
         } catch (error) {

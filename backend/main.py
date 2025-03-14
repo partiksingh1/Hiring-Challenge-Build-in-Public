@@ -1,21 +1,24 @@
+import json
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request, Response, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from firebase_admin import auth, credentials, initialize_app
 from google.cloud import firestore
-import firebase_admin
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 from dotenv import load_dotenv
-
-# Load environment variables
 load_dotenv()
+# Set the environment variable for Google Cloud credentials
+firebase_credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 
-# Initialize Firebase Admin SDK (if not already initialized)
-if not firebase_admin._apps:
-    cred = credentials.Certificate(os.getenv("FIREBASE_CREDENTIALS"))
-    firebase_admin.initialize_app(cred)
+if not firebase_credentials_path:
+    raise ValueError("Firebase credentials (GOOGLE_APPLICATION_CREDENTIALS) are not set.")
+
+# Use the credentials to initialize Firebase Admin SDK
+from firebase_admin import credentials, initialize_app
+cred = credentials.Certificate(firebase_credentials_path)
+initialize_app(cred)
 
 # Initialize Firestore Client
 db = firestore.Client()
@@ -26,7 +29,6 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "*"
 ]
 
 app.add_middleware(
@@ -208,6 +210,26 @@ async def get_game_config_by_id(game_id: str):
     game_config = GameConfig(id=game_doc.id, **game_config_data)
 
     return game_config
+
+    # Check if the user exists in Firestore
+    user_ref = db.collection("users").document(user_progress.user_id)
+    user_doc = user_ref.get()
+
+    if not user_doc.exists:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Check if the game configuration exists in Firestore
+    game_ref = db.collection("game_configs").document(user_progress.game_id)
+    game_doc = game_ref.get()
+
+    if not game_doc.exists:
+        raise HTTPException(status_code=404, detail="Game configuration not found")
+
+    # Store user progress in Firestore under user progress sub-collection (not overwriting)
+    progress_ref = db.collection("users").document(user_progress.user_id).collection("progress").document()  # Automatically create a new document
+    progress_ref.set(user_progress.dict())  # Save new progress entry
+
+    return GameResponse(message="Progress saved successfully!", id=progress_ref.id)
 
 # Route to get all user progress by user_id (using userId in the URL)
 @app.get("/game/progress/{user_id}", response_model=list[UserProgress])

@@ -7,11 +7,15 @@ from google.cloud import firestore
 import firebase_admin
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
+from dotenv import load_dotenv
 
-# Load the service account key from an environment variable or file
-cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "./serviceAccountKey.json")
-cred = credentials.Certificate(cred_path)
-initialize_app(cred)
+# Load environment variables
+load_dotenv()
+
+# Initialize Firebase Admin SDK (if not already initialized)
+if not firebase_admin._apps:
+    cred = credentials.Certificate(os.getenv("FIREBASE_CREDENTIALS"))
+    firebase_admin.initialize_app(cred)
 
 # Initialize Firestore Client
 db = firestore.Client()
@@ -204,6 +208,7 @@ async def get_game_config_by_id(game_id: str):
     game_config = GameConfig(id=game_doc.id, **game_config_data)
 
     return game_config
+
 # Route to get all user progress by user_id (using userId in the URL)
 @app.get("/game/progress/{user_id}", response_model=list[UserProgress])
 async def get_user_progress(user_id: str):

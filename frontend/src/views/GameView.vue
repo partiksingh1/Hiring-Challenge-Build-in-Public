@@ -205,7 +205,7 @@ export default defineComponent({
     async fetchGameConfig() {
       console.log('Fetching game configuration...');
       try {
-        const response = await fetch(`http://localhost:8000/game/configure/${this.gameId}`);
+        const response = await fetch(`https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure/${this.gameId}`);
         const config = await response.json();
         this.totalRounds = config.rounds;
         this.difficulty = config.difficulty;
@@ -388,7 +388,7 @@ export default defineComponent({
           game_name:this.gameName
         };
 
-        const response = await fetch("http://localhost:8000/game/progress", {
+        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/progress", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -81,6 +81,10 @@ def verify_firebase_token(id_token):
 
 # ---- API ROUTES ----
 
+@app.get("/")
+async def root():
+    return {"message": "Hello, World!"}
+
 @app.post("/signup")
 async def register_user(data: dict):
     email = data.get("email")

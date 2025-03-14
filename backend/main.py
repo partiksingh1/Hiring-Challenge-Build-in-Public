@@ -2,6 +2,7 @@ import json
 import os
 from fastapi import FastAPI, Depends, HTTPException, Request, Response, status
 from fastapi.security import OAuth2PasswordBearer
+import firebase_admin
 from firebase_admin import credentials, auth, firestore
 from pydantic import BaseModel
 from google.cloud import firestore

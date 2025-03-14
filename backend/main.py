@@ -7,17 +7,9 @@ from google.cloud import firestore
 import firebase_admin
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
-import json
 
-# Get the credentials from environment variable
-firebase_credentials_json = os.getenv('FIREBASE_CREDENTIALS')
-if firebase_credentials_json:
-    # Parse the JSON string into a dictionary
-    firebase_credentials = json.loads(firebase_credentials_json)
-    cred = credentials.Certificate(firebase_credentials)
-else:
-    # Fallback for local development
-    cred = credentials.Certificate("./serviceAccountKey.json")
+# Set the environment variable for Google Cloud credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./serviceAccountKey.json"
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate("./serviceAccountKey.json")
@@ -214,7 +206,6 @@ async def get_game_config_by_id(game_id: str):
     game_config = GameConfig(id=game_doc.id, **game_config_data)
 
     return game_config
-
 # Route to get all user progress by user_id (using userId in the URL)
 @app.get("/game/progress/{user_id}", response_model=list[UserProgress])
 async def get_user_progress(user_id: str):

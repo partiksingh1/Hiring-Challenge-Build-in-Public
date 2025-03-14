@@ -34,6 +34,14 @@
           <div class="font-semibold text-red-700">Time: {{ timeLeft }}s</div>
         </div>
       </div>
+          <!-- Feedback message -->
+    <div 
+      v-if="feedbackMessage && gameStarted" 
+      class="w-full max-w-3xl p-4 rounded-lg text-center text-base sm:text-lg font-semibold"
+      :class="feedbackType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+    >
+      {{ feedbackMessage }}
+    </div>
 
       <!-- Balance scale -->
       <div class="relative mb-6 sm:mb-10 h-48 sm:h-56 w-full">
@@ -123,14 +131,6 @@
       </div>
     </div>
 
-    <!-- Feedback message -->
-    <div 
-      v-if="feedbackMessage && gameStarted" 
-      class="w-full max-w-3xl p-4 rounded-lg text-center text-base sm:text-lg font-semibold mb-4"
-      :class="feedbackType === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-    >
-      {{ feedbackMessage }}
-    </div>
 
     <!-- Rules -->
     <div class="w-full max-w-3xl bg-white rounded-xl shadow-lg p-4 text-gray-700 text-sm sm:text-base">
@@ -205,7 +205,7 @@ export default defineComponent({
     async fetchGameConfig() {
       console.log('Fetching game configuration...');
       try {
-        const response = await fetch(`https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure/${this.gameId}`);
+        const response = await fetch(`http://localhost:8000/game/configure/${this.gameId}`);
         const config = await response.json();
         this.totalRounds = config.rounds;
         this.difficulty = config.difficulty;
@@ -388,7 +388,7 @@ export default defineComponent({
           game_name:this.gameName
         };
 
-        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/progress", {
+        const response = await fetch("http://localhost:8000/game/progress", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -207,26 +207,6 @@ async def get_game_config_by_id(game_id: str):
 
     return game_config
 
-    # Check if the user exists in Firestore
-    user_ref = db.collection("users").document(user_progress.user_id)
-    user_doc = user_ref.get()
-
-    if not user_doc.exists:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    # Check if the game configuration exists in Firestore
-    game_ref = db.collection("game_configs").document(user_progress.game_id)
-    game_doc = game_ref.get()
-
-    if not game_doc.exists:
-        raise HTTPException(status_code=404, detail="Game configuration not found")
-
-    # Store user progress in Firestore under user progress sub-collection (not overwriting)
-    progress_ref = db.collection("users").document(user_progress.user_id).collection("progress").document()  # Automatically create a new document
-    progress_ref.set(user_progress.dict())  # Save new progress entry
-
-    return GameResponse(message="Progress saved successfully!", id=progress_ref.id)
-
 # Route to get all user progress by user_id (using userId in the URL)
 @app.get("/game/progress/{user_id}", response_model=list[UserProgress])
 async def get_user_progress(user_id: str):
@@ -267,6 +247,28 @@ async def get_user_progress(user_id: str):
         return all_progress
     else:
         raise HTTPException(status_code=404, detail="No progress found for the user")
+    
+@app.post("/game/progress", response_model=UserProgress)
+async def save_user_progress(progress: UserProgress):
+    # Check if the user exists in Firestore
+    user_ref = db.collection("users").document(progress.user_id)
+    user_doc = user_ref.get()
+
+    if not user_doc.exists:
+        raise HTTPException(status_code=404, detail="User  not found")
+
+    # Create a new document in the user's 'progress' sub-collection
+    progress_ref = user_ref.collection("progress").document()  # Create a new document reference
+    progress_data = {
+        "game_id": progress.game_id,
+        "score": progress.score,
+        "game_name": progress.game_name,
+        "user_id": progress.user_id
+    }
+    progress_ref.set(progress_data)  # Save the progress data
+
+    # Return the saved progress data as a UserProgress instance
+    return UserProgress(**progress_data)
 
 @app.get("/game/users/progress", response_model=list[UserProgress])
 async def get_all_user_progress():

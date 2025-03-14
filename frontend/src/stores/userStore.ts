@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", {
     async register(email: string, password: string, role: string) {  // Changed 'any' to 'string'
       try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/signup", {
+        await fetch("http://localhost:8000/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, role }),  // Removed password from body for security

@@ -117,7 +117,7 @@ export default {
     // Function to configure the game settings
     const configureGame = async () => {
       try {
-        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure", {
+        const response = await fetch("http://localhost:8000/game/configure", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export default {
     // Fetch all user progress
     const fetchUserProgress = async () => {
       try {
-        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/users/progress");
+        const response = await fetch("http://localhost:8000/game/users/progress");
         const data = await response.json();
         allUserProgress.value = data;
       } catch (error) {
@@ -152,7 +152,7 @@ export default {
     // Fetch all game configurations
     const fetchGameConfigs = async () => {
       try {
-        const response = await fetch("https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure");
+        const response = await fetch("http://localhost:8000/game/configure");
         const data = await response.json();
         allGameConfigs.value = data;
       } catch (error) {
@@ -164,7 +164,7 @@ export default {
     // Delete a game configuration
     const deleteGameConfig = async (gameId: string | undefined) => {
       try {
-        const response = await fetch(`https://hiring-challenge-build-in-public-d76h.onrender.com/game/configure/${gameId}`, {
+        const response = await fetch(`http://localhost:8000/game/configure/${gameId}`, {
           method: "DELETE",
         });
 

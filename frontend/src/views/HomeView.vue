@@ -47,25 +47,16 @@
         <div class="bg-white rounded-lg shadow-md p-6">
           <div class="text-indigo-600 text-4xl mb-4">🧩</div>
           <h3 class="text-xl font-bold mb-2">Visual Learning</h3>
-          <p class="text-gray-600">
-            See addition in action with our interactive balance scale that gives immediate visual feedback!
-          </p>
         </div>
         
         <div class="bg-white rounded-lg shadow-md p-6">
           <div class="text-indigo-600 text-4xl mb-4">🏆</div>
           <h3 class="text-xl font-bold mb-2">Level Progression</h3>
-          <p class="text-gray-600">
-            Start with simple additions and progress to more challenging equations as you improve!
-          </p>
         </div>
         
         <div class="bg-white rounded-lg shadow-md p-6">
           <div class="text-indigo-600 text-4xl mb-4">📊</div>
           <h3 class="text-xl font-bold mb-2">Track Progress</h3>
-          <p class="text-gray-600">
-            Track your learning journey with detailed statistics and performance metrics!
-          </p>
         </div>
       </div>
     </div>

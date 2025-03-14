@@ -8,12 +8,10 @@ import firebase_admin
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 
-# Set the environment variable for Google Cloud credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./serviceAccountKey.json"
-
-# Initialize Firebase Admin SDK
-cred = credentials.Certificate("./serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+# Load the service account key from an environment variable or file
+cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "./serviceAccountKey.json")
+cred = credentials.Certificate(cred_path)
+initialize_app(cred)
 
 # Initialize Firestore Client
 db = firestore.Client()

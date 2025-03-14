@@ -7,6 +7,7 @@ from firebase_admin import auth, credentials, initialize_app
 from google.cloud import firestore
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
+import json
 from dotenv import load_dotenv
 load_dotenv()
 # Set the environment variable for Google Cloud credentials
@@ -17,7 +18,7 @@ if not firebase_credentials_path:
 
 # Use the credentials to initialize Firebase Admin SDK
 from firebase_admin import credentials, initialize_app
-cred = credentials.Certificate(firebase_credentials_path)
+cred = credentials.Certificate(json.loads(firebase_credentials_path))
 initialize_app(cred)
 
 # Initialize Firestore Client
